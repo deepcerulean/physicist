@@ -1,6 +1,6 @@
 name: physicist
-summary: "TODO: Summary"
-description: "TODO: Description"
+summary: "a tiny 2-d physics engine for ruby"
+description: "a little physics library"
 license: MIT
 authors: Joseph Weissman
 email: jweissman1986@gmail.com
