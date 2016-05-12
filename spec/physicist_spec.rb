@@ -117,6 +117,17 @@ describe Body do
             expect(vy).to eq(0)
           end
         end
+
+        context "with no obstacles" do
+          let(:obstacles) { [] }
+
+          it 'should be in freefall' do
+            _,vy = *body_at_t.velocity
+            _,y = *body_at_t.position
+            expect(y0 + 9.8).to eq(y)
+            expect(vy).to eq(9.8)
+          end
+        end
       end
     end
   end

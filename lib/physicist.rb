@@ -20,9 +20,6 @@ module Physicist
       @t0 = t0
     end
 
-    # def x; position[0] end
-    # def y; position[1] end
-
     def width
       dimensions[0]
     end
@@ -43,7 +40,7 @@ module Physicist
       next_y_obstacle = next_obstacle_on_y_axis(vy,t,obstacles:obstacles)
 
       if next_y_obstacle
-        distance_to_next_y_obstacle = 
+        distance_to_next_y_obstacle =
           if vy > 0
             ((y0+height) - next_y_obstacle.position[1]).abs
           else
@@ -86,8 +83,6 @@ module Physicist
     def next_obstacle_on_y_axis(vy,t,obstacles:)
       x0,y0 = *position
 
-
-      # does the line from y-infinity 
       obstacles_along_axis = obstacles.select do |obstacle|
         ox,_ = *obstacle.position
         ow,_ = *obstacle.dimensions
@@ -122,18 +117,4 @@ module Physicist
       9.8
     end
   end
-
-  # class Environment
-  #   def initialize(gravity:,friction:,t0:)
-  #   end
-
-  #   def add_body(body)
-  #   end
-  #
-  #   def add_obstacle(obstacle)
-  #   end
-
-  #   def at(t)
-  #   end
-  # end
 end
