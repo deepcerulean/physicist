@@ -88,7 +88,7 @@ describe Body do
         context "with an obstacle directly beneath the body" do
           let(:obstacles) do
             [
-              SimpleBody.new(position: [ x0, y0 + height ], dimensions: [ width, height ]) 
+              SimpleBody.new(position: [ x0, y0 + height ], dimensions: [ width, height ])
             ]
           end
 
