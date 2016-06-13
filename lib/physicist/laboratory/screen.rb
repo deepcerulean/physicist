@@ -25,7 +25,7 @@ module Physicist
       end
 
       def sprite_map
-        { scientist.position => [avatar_for(scientist)] }
+        { scientist.current.position => [avatar_for(scientist)] }
       end
 
       def avatar_for(scientist)

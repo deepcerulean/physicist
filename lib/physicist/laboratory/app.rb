@@ -2,9 +2,16 @@ require_relative 'screen'
 require_relative 'view'
 
 require_relative 'commands/create_scientist'
+require_relative 'commands/move_scientist'
+
 require_relative 'handlers/create_scientist_handler'
+require_relative 'handlers/move_scientist_handler'
+
 require_relative 'events/scientist_created_event'
+require_relative 'events/scientist_updated_event'
+
 require_relative 'listeners/scientist_created_event_listener'
+require_relative 'listeners/scientist_updated_event_listener'
 
 require_relative 'models/scientist'
 require_relative 'models/space'
@@ -29,24 +36,44 @@ module Physicist
           )
         )
 
-        # @scientist_view = 
+        # @scientist_view =
         # ScientistView.create(scientist_id: scientist_id)
         sim.params[:active_scientist_id] ||= scientist_id
       end
 
-      class NullScientistView
-        def name
-          'Nohbdy'
-        end
+      def tick
+        @ticks ||= 0
+        @ticks += 1
+        if (@ticks % 20 == 0)
+          # fire(ping) #
 
-        def position
-          [0,0]
-        end
+          # poll for movement keys...
+          if window.button_down?(Gosu::KbLeft)
+            fire(move_scientist(:left))
+          elsif window.button_down?(Gosu::KbRight)
+            fire(move_scientist(:right))
+          end
 
-        def velocity
-          [0,0]
+          # TODO
+          # if window.button_down?(Gosu::KbUp)
+          #   fire(jump)
+          # end
         end
       end
+
+      def press(key)
+        if key == Gosu::KbLeft
+          fire(move_scientist(:left))
+        elsif key == Gosu::KbRight
+          fire(move_scientist(:right))
+        end
+
+        # if key == Gosu::KbUp
+        #   fire(jump)
+        # end
+      end
+
+
 
       def scientist_view
         ScientistView.where(scientist_id: scientist_id).first || NullScientistView.new
@@ -57,12 +84,12 @@ module Physicist
         @workspace = Space.create(
           scientists: [ scientist_view ],
           map:
-            (
-              Array.new(map_height - 1) {
-                Array.new(map_width) { nil }
-              } +
-              [
-                Array.new(map_width) { 0 }
+          (
+            Array.new(map_height - 1) {
+              Array.new(map_width) { nil }
+            } +
+            [
+              Array.new(map_width) { 0 }
               ]
             )
         )
@@ -70,6 +97,10 @@ module Physicist
 
       def create_scientist(*args)
         CreateScientist.create(*args)
+      end
+
+      def move_scientist(direction)
+        MoveScientist.create(scientist_id: scientist_id, direction: direction)
       end
 
       def scientist_id

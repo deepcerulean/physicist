@@ -56,6 +56,7 @@ module Physicist
     end
 
     def at(t, obstacles:[])
+      p [ :body, at: t, pos: position, vel: velocity ]
       x0,_   = *position
       vx0,vy0 = *velocity
 
