@@ -6,7 +6,7 @@ module Physicist
 
       def show
         [
-          Paragraph.new(text: "Welcome to the lab, #{scientist.name}!"),
+          Paragraph.new(text: "Welcome to the lab, #{scientist.display_name}!"),
           field
         ]
       end
@@ -14,13 +14,13 @@ module Physicist
       def field
         SpriteField.new(
           grid: map_grid,
-          scale: 0.5,
+          scale: 1.0,
           # camera_location: [-1.2,-2.4],
           tiles_path: "media/images/tiles.png",
           tile_width: 64,
           tile_height: 64,
           tile_class: "Dedalus::Elements::MapTile",
-          sprite_map: sprite_map 
+          sprite_map: sprite_map
         )
       end
 
@@ -35,7 +35,7 @@ module Physicist
           invert_x: false,
           asset_width: 64,
           asset_height: 64,
-          scale: 0.5
+          scale: 1.0
         )
       end
 

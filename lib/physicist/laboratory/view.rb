@@ -3,7 +3,7 @@ module Physicist
     class View < Dedalus::ApplicationView
       def app_screen
         Screen.new(
-          scientist: application.scientist,
+          scientist: application.scientist_view,
           map_grid: application.workspace.map
         )
       end
