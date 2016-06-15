@@ -12,8 +12,9 @@ module Physicist
       end
 
       def field
+        p [ :screen_field, grid: map_grid ]
         SpriteField.new(
-          grid: map_grid,
+          grid: map_grid, #[[1,2],[3,0]], #map_grid,
           scale: 1.0,
           # camera_location: [-1.2,-2.4],
           tiles_path: "media/images/tiles.png",
@@ -24,7 +25,9 @@ module Physicist
         )
       end
 
+
       def sprite_map
+        # {}
         { scientist.current.position => [avatar_for(scientist)] }
       end
 

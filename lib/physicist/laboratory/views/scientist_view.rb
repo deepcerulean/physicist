@@ -1,11 +1,17 @@
 module Physicist
   module Laboratory
     class ScientistView < Metacosm::View
-      attr_accessor :scientist_id
+      # belongs_to :workspace_view
+
+      attr_accessor :scientist_id, :space_id
       attr_accessor :display_name, :position, :velocity, :t0
 
       def current # at(t)
-        body.at(Time.now) #.position
+        body.at(Time.now, obstacles: workspace_view.obstacles) #.position
+      end
+
+      def workspace_view
+        WorkspaceView.find_by(space_id: space_id)
       end
 
       def body
@@ -30,6 +36,10 @@ module Physicist
 
       def velocity
         [0,0]
+      end
+
+      def space_id
+        nil
       end
     end
   end

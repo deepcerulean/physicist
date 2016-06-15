@@ -52,12 +52,12 @@ module Physicist
     end
 
     def friction
-      1.0
+      2.5
     end
 
     def at(t, obstacles:[])
       p [ :body, at: t, pos: position, vel: velocity ]
-      x0,_   = *position
+      x0, _   = *position
       vx0,vy0 = *velocity
 
       x_speed  = vx0.abs
@@ -69,7 +69,7 @@ module Physicist
 
       fric = friction * dt
       x_halted = false
-      vx = if fric < x_speed
+      vx = if (fric*2) < x_speed
              vx0 + (fric * -sign_x)
            else
              x_halted = true
@@ -77,7 +77,7 @@ module Physicist
              0
            end
 
-      xt,yt,vxt,vyt = deduce_y_coordinate(vy,t,obstacles:obstacles) do |y,_vyt|
+        xt,yt,vxt,vyt = deduce_y_coordinate(vy,t,obstacles:obstacles) do |y,_vyt|
         if x_halted
           [x0 + (x_stopping_distance*sign_x), y, vx, _vyt]
         else

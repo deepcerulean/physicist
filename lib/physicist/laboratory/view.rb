@@ -4,7 +4,7 @@ module Physicist
       def app_screen
         Screen.new(
           scientist: application.scientist_view,
-          map_grid: application.workspace.map
+          map_grid: application.workspace_view.grid_map
         )
       end
     end

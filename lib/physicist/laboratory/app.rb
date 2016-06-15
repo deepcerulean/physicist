@@ -3,19 +3,25 @@ require_relative 'view'
 
 require_relative 'commands/create_scientist'
 require_relative 'commands/move_scientist'
+require_relative 'commands/jump_scientist'
 
 require_relative 'handlers/create_scientist_handler'
 require_relative 'handlers/move_scientist_handler'
+require_relative 'handlers/jump_scientist_handler'
 
 require_relative 'events/scientist_created_event'
 require_relative 'events/scientist_updated_event'
+require_relative 'events/space_created_event'
 
 require_relative 'listeners/scientist_created_event_listener'
 require_relative 'listeners/scientist_updated_event_listener'
+require_relative 'listeners/space_created_event_listener'
 
 require_relative 'models/scientist'
 require_relative 'models/space'
+
 require_relative 'views/scientist_view'
+require_relative 'views/workspace_view'
 
 module Physicist
   module Laboratory
@@ -35,18 +41,12 @@ module Physicist
             velocity: [0,0]
           )
         )
-
-        # @scientist_view =
-        # ScientistView.create(scientist_id: scientist_id)
-        sim.params[:active_scientist_id] ||= scientist_id
       end
 
       def tick
         @ticks ||= 0
         @ticks += 1
         if (@ticks % 20 == 0)
-          # fire(ping) #
-
           # poll for movement keys...
           if window.button_down?(Gosu::KbLeft)
             fire(move_scientist(:left))
@@ -55,9 +55,9 @@ module Physicist
           end
 
           # TODO
-          # if window.button_down?(Gosu::KbUp)
-          #   fire(jump)
-          # end
+          if window.button_down?(Gosu::KbUp)
+            fire(jump)
+          end
         end
       end
 
@@ -68,31 +68,17 @@ module Physicist
           fire(move_scientist(:right))
         end
 
-        # if key == Gosu::KbUp
-        #   fire(jump)
-        # end
+        if key == Gosu::KbUp
+          fire(jump)
+        end
       end
-
-
 
       def scientist_view
         ScientistView.where(scientist_id: scientist_id).first || NullScientistView.new
       end
 
-      def workspace
-        map_width, map_height = 30,14
-        @workspace = Space.create(
-          scientists: [ scientist_view ],
-          map:
-          (
-            Array.new(map_height - 1) {
-              Array.new(map_width) { nil }
-            } +
-            [
-              Array.new(map_width) { 0 }
-              ]
-            )
-        )
+      def workspace_view
+        WorkspaceView.where(space_id: scientist_view.space_id).first || NullWorkspaceView.new
       end
 
       def create_scientist(*args)
@@ -101,6 +87,10 @@ module Physicist
 
       def move_scientist(direction)
         MoveScientist.create(scientist_id: scientist_id, direction: direction)
+      end
+
+      def jump
+        JumpScientist.create(scientist_id: scientist_id)
       end
 
       def scientist_id

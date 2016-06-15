@@ -2,17 +2,19 @@ module Physicist
   module Laboratory
     # user avatars are 'scientists'
     class Scientist < Metacosm::Model
-      # belongs_to :space
+      belongs_to :space
+
+      # attr_accessor :space_id #??
       attr_accessor :name, :title
       attr_accessor :position, :velocity
       attr_accessor :updated_at
 
-      def name_with_title
-        "#{title} #{name}"
+      def ground_speed
+        1
       end
 
-      def ground_speed
-        10
+      def leg_strength # ??
+        -10
       end
 
       def move(direction:)
@@ -20,7 +22,6 @@ module Physicist
         vx,vy = *current.velocity
         speed = ground_speed
         dvx = direction == :left ? -speed : speed
-
 
         # TODO more specific event?
         update(
@@ -30,8 +31,19 @@ module Physicist
         )
       end
 
+      def jump
+        p [ :jump, current: current ]
+        vx, vy = *current.velocity
+        dvy = leg_strength
+        update(
+          position: current.position,
+          velocity: [vx, vy + dvy],
+          updated_at: Time.now
+        )
+      end
+
       def current
-        body.at(Time.now)
+        body.at(Time.now, obstacles: space.obstacles)
       end
 
       def body
