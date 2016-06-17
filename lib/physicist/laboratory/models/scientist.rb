@@ -9,24 +9,40 @@ module Physicist
       attr_accessor :position, :velocity
       attr_accessor :updated_at
 
+      def tick
+        @position = current.position
+        @velocity = current.velocity
+        @updated_at = Time.now
+      end
+
       def ground_speed
-        1
+        5
+      end
+
+      def max_ground_speed
+        10
       end
 
       def leg_strength # ??
-        -10
+        -8
+      end
+
+      def max_jump_velocity
+        -16
       end
 
       def move(direction:)
-        p [ :move, dir: direction, current: current ]
         vx,vy = *current.velocity
         speed = ground_speed
         dvx = direction == :left ? -speed : speed
+        vxt = vx + dvx
+        return unless vxt.abs < max_ground_speed
+        p [ :move, dir: direction, current: current, dvx: dvx, vxt: vxt ]
 
         # TODO more specific event?
         update(
           position: current.position,
-          velocity: [vx + dvx, vy],
+          velocity: [vxt, vy],
           updated_at: Time.now
         )
       end
@@ -35,6 +51,8 @@ module Physicist
         p [ :jump, current: current ]
         vx, vy = *current.velocity
         dvy = leg_strength
+        vyt = vy + dvy
+        return unless vyt > max_jump_velocity
         update(
           position: current.position,
           velocity: [vx, vy + dvy],
@@ -43,10 +61,14 @@ module Physicist
       end
 
       def current
-        body.at(Time.now, obstacles: space.obstacles)
+        @body = body.at(Time.now, obstacles: space.obstacles)
       end
 
       def body
+        construct_body
+      end
+
+      def construct_body
         # ...integrate physicist bodies...
         Physicist::Body.new(
           position: position,

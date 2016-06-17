@@ -1,13 +1,16 @@
+require 'ostruct'
 module Physicist
   module Laboratory
     class ScientistView < Metacosm::View
-      # belongs_to :workspace_view
-
       attr_accessor :scientist_id, :space_id
       attr_accessor :display_name, :position, :velocity, :t0
 
+      after_update {
+        @body = construct_body
+      }
+
       def current # at(t)
-        body.at(Time.now, obstacles: workspace_view.obstacles) #.position
+        @body = body.at(Time.now, obstacles: workspace_view.obstacles)
       end
 
       def workspace_view
@@ -16,6 +19,10 @@ module Physicist
 
       def body
         # ... integrate physicist bodies ...
+        @body ||= construct_body
+      end
+      
+      def construct_body
         Physicist::Body.new(
           position: position,
           velocity: velocity,
@@ -40,6 +47,10 @@ module Physicist
 
       def space_id
         nil
+      end
+
+      def current
+        OpenStruct.new(position: position, velocity: velocity)
       end
     end
   end

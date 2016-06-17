@@ -2,21 +2,22 @@ module Physicist
   module Laboratory
     class Screen < Dedalus::Screen
       include Dedalus::Elements
-      attr_accessor :scientist, :map_grid
+      attr_accessor :scientist, :map_grid, :camera
 
       def show
         [
           Paragraph.new(text: "Welcome to the lab, #{scientist.display_name}!"),
+          Paragraph.new(text: "Pos: #{scientist.current.position}"),
+          Paragraph.new(text: "Vel: #{scientist.current.velocity}"),
           field
         ]
       end
 
       def field
-        p [ :screen_field, grid: map_grid ]
         SpriteField.new(
-          grid: map_grid, #[[1,2],[3,0]], #map_grid,
+          grid: map_grid,
           scale: 1.0,
-          # camera_location: [-1.2,-2.4],
+          camera_location: camera,
           tiles_path: "media/images/tiles.png",
           tile_width: 64,
           tile_height: 64,
@@ -25,9 +26,7 @@ module Physicist
         )
       end
 
-
       def sprite_map
-        # {}
         { scientist.current.position => [avatar_for(scientist)] }
       end
 

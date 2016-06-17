@@ -37,7 +37,7 @@ module Physicist
             scientist_id: scientist_id,
             name: "Bill Bye",
             title: "Science Guy",
-            position: [10,12],
+            position: [0,2],
             velocity: [0,0]
           )
         )
@@ -46,6 +46,8 @@ module Physicist
       def tick
         @ticks ||= 0
         @ticks += 1
+        Scientist.all.each(&:tick)
+
         if (@ticks % 20 == 0)
           # poll for movement keys...
           if window.button_down?(Gosu::KbLeft)
