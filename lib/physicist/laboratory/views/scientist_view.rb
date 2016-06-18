@@ -27,7 +27,7 @@ module Physicist
           position: position,
           velocity: velocity,
           t0: t0 || Time.now,
-          dimensions: [1,1]
+          dimensions: [2,2]
         )
       end
     end

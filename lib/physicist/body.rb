@@ -126,8 +126,9 @@ module Physicist
           yield [y0 + (vy * dt), vy ]
         else
           if vy > 0
-            yield [next_y_obstacle.position[1] - 1.01, 0] # (height + 0.1), 0]
-          else
+            p [ height: height ]
+            yield [next_y_obstacle.position[1] - (height) - 0.001, 0]
+          else 
             yield [next_y_obstacle.position[1] + next_y_obstacle.dimensions[1] + 0.1, 0]
           end
         end

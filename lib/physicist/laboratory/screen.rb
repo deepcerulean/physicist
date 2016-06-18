@@ -37,7 +37,7 @@ module Physicist
           invert_x: false,
           asset_width: 64,
           asset_height: 64,
-          scale: 1.0
+          scale: 2.0
         )
       end
 
