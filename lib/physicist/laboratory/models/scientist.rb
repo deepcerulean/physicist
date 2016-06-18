@@ -26,7 +26,7 @@ module Physicist
       end
 
       def leg_strength # ??
-        -12
+        -15
       end
 
       def max_jump_velocity
@@ -60,7 +60,7 @@ module Physicist
       end
 
       def current
-        @body = body.at(Time.now, obstacles: space.obstacles)
+        body.at(Time.now, obstacles: space.obstacles)
       end
 
       def body

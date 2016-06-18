@@ -4,15 +4,15 @@ module Physicist
       def handle(scientist_id:, name:, title:, position:, velocity:)
         map_data = (
           [
-            [ 1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ 1, nil, nil, nil, nil, 2, nil, nil, nil, nil, 1 ],
-            [ 1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ]
+            [ 1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ],
+            [ nil, nil, nil, nil, nil, 1,   1,   nil, nil, nil, nil, 2,   1 ],
+            [ nil, nil, nil, nil, nil, 1,   1,   nil, nil, nil, nil, nil, 1 ],
+            [ nil, nil, nil, nil, nil, 1,   1,   nil, nil, nil, nil, nil, 1 ],
+            [ nil, nil, nil, nil, nil, 1,   1,   nil, nil, nil, nil, nil, 1 ],
+            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 1 ],
+            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 3,   1 ],
+            [ 1,   1,   nil, nil, 1,   1,   1,   1,   nil, nil, nil, 2,   1 ],
+            [ 1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1]
           ]
         )
 

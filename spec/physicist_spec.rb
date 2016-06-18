@@ -96,7 +96,7 @@ describe Body do
             _,vy = *body_at_t.velocity
             _,y = *body_at_t.position
             expect(vy).to eq(0)
-            expect(y0 - 0.001).to eq(y)
+            expect(y0 - body.epsilon).to eq(y)
           end
         end
 
@@ -113,7 +113,7 @@ describe Body do
           it 'should stop vertical movement after 1s' do
             _,vy = *body_at_t.velocity
             _,y = *body_at_t.position
-            expect(y0 + 9.799).to eq(y)
+            expect(y0 + 9.8 - body.epsilon).to eq(y)
             expect(vy).to eq(0)
           end
         end

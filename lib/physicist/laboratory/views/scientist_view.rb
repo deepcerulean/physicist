@@ -13,10 +13,6 @@ module Physicist
         @body = body.at(Time.now, obstacles: workspace_view.obstacles)
       end
 
-      def workspace_view
-        WorkspaceView.find_by(space_id: space_id)
-      end
-
       def body
         # ... integrate physicist bodies ...
         @body ||= construct_body
@@ -29,6 +25,10 @@ module Physicist
           t0: t0 || Time.now,
           dimensions: [2,2]
         )
+      end
+
+      def workspace_view
+        WorkspaceView.find_by(space_id: space_id)
       end
     end
 
