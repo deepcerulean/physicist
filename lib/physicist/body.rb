@@ -26,7 +26,6 @@ module Physicist
     end
 
     def at(t, obstacles:[])
-      # p [ :body, at: t, pos: position, vel: velocity ]
       x0, _   = *position
       vx0,vy0 = *velocity
 
@@ -87,15 +86,10 @@ module Physicist
           end
 
         distance_travelled_in_x_axis_if_no_obstacles = vx * dt
-        p [ :next_x_obs, at: ox, distance: distance_to_next_x_obstacle, distance_without_obs: distance_travelled_in_x_axis_if_no_obstacles ]
-        # require 'pry'
-        # binding.pry
 
         if distance_travelled_in_x_axis_if_no_obstacles.abs < distance_to_next_x_obstacle
-          p [ :travel_x_less_than_obs_x ]
           yield [x0 + (vx*dt), vx]
         else
-          p [ :travel_x_more_than_obs_x ]
           if vx > 0
             yield [next_x_obstacle.position[0]-width, 0]
           else
@@ -126,7 +120,6 @@ module Physicist
           yield [y0 + (vy * dt), vy ]
         else
           if vy > 0
-            p [ height: height ]
             yield [next_y_obstacle.position[1] - (height) - 0.001, 0]
           else 
             yield [next_y_obstacle.position[1] + next_y_obstacle.dimensions[1] + 0.1, 0]

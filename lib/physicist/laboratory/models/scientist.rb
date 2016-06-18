@@ -39,9 +39,7 @@ module Physicist
         dvx = direction == :left ? -speed : speed
         vxt = vx + dvx
         return unless vxt.abs < max_ground_speed
-        p [ :move, dir: direction, current: current, dvx: dvx, vxt: vxt ]
 
-        # TODO more specific event?
         update(
           position: current.position,
           velocity: [vxt, vy],
@@ -50,7 +48,6 @@ module Physicist
       end
 
       def jump
-        p [ :jump, current: current ]
         vx, vy = *current.velocity
         return if vy.abs > 0.0 
 

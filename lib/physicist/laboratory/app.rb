@@ -31,7 +31,6 @@ module Physicist
       attr_accessor :scientist
 
       def setup(*)
-        p [ :lab_setup! ]
         fire(
           create_scientist(
             scientist_id: scientist_id,
@@ -55,12 +54,8 @@ module Physicist
         end
 
         # TODO
-        p [ :check_jump ]
         if window.button_down?(Gosu::KbUp)
-          p [ :jump! ]
           fire(jump)
-        else
-          p [ :no_jump! ]
         end
       end
 

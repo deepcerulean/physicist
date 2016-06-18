@@ -8,7 +8,6 @@ module Physicist
     end
 
     def self.collection_from_tiles(tile_grid)
-      # p [ :assembling_bodies_from_tiles, grid: tile_grid ]
       simple_bodies = []
 
       tile_grid.each_with_index do |row, y|
@@ -19,7 +18,6 @@ module Physicist
         end
       end
 
-      # p [ bodies: simple_bodies ]
       simple_bodies
     end
   end
