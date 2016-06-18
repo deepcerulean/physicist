@@ -10,9 +10,11 @@ module Physicist
       attr_accessor :updated_at
 
       def tick
-        @position = current.position
-        @velocity = current.velocity
-        @updated_at = Time.now
+        update(
+          position: current.position, 
+          velocity: current.velocity, 
+          updated_at: Time.now
+        )
       end
 
       def ground_speed
@@ -24,11 +26,11 @@ module Physicist
       end
 
       def leg_strength # ??
-        -8
+        -12
       end
 
       def max_jump_velocity
-        -16
+        -30
       end
 
       def move(direction:)
@@ -50,9 +52,9 @@ module Physicist
       def jump
         p [ :jump, current: current ]
         vx, vy = *current.velocity
+        return if vy.abs > 0.0 
+
         dvy = leg_strength
-        vyt = vy + dvy
-        return unless vyt > max_jump_velocity
         update(
           position: current.position,
           velocity: [vx, vy + dvy],

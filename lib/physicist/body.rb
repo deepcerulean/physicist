@@ -18,11 +18,11 @@ module Physicist
     end
 
     def gravity
-      20.0
+      50.0
     end
 
     def friction
-      8.0
+      10.0
     end
 
     def at(t, obstacles:[])
@@ -44,7 +44,7 @@ module Physicist
              vx0 + (fric * -sign_x)
            else
              x_halted = true
-             x_stopping_distance = (vx0 ** 2) / (4 * friction)
+             x_stopping_distance = (vx0 ** 2) / (3 * friction)
              0
            end
 
@@ -57,6 +57,9 @@ module Physicist
           end
         end
       end
+
+      vxt = 0 if -0.05 < vx && vx < 0.05
+      vyt = 0 if -0.05 < vy && vy < 0.05
 
       Body.new(
         position: [xt,yt],
@@ -74,19 +77,30 @@ module Physicist
       next_x_obstacle = next_obstacle_on_x_axis(y,vx,t,obstacles:obstacles)
       if next_x_obstacle
         ox,_ = *next_x_obstacle.position
+        ow,_ = *next_x_obstacle.dimensions
 
         distance_to_next_x_obstacle =
           if vx > 0
             ((x0+width) - ox).abs
-          else
-            (x0 - ox).abs
+          elsif vx < 0
+            ((x0) - (ox+ow)).abs
           end
 
         distance_travelled_in_x_axis_if_no_obstacles = vx * dt
-        if distance_travelled_in_x_axis_if_no_obstacles < distance_to_next_x_obstacle
+        p [ :next_x_obs, at: ox, distance: distance_to_next_x_obstacle, distance_without_obs: distance_travelled_in_x_axis_if_no_obstacles ]
+        # require 'pry'
+        # binding.pry
+
+        if distance_travelled_in_x_axis_if_no_obstacles.abs < distance_to_next_x_obstacle
+          p [ :travel_x_less_than_obs_x ]
           yield [x0 + (vx*dt), vx]
         else
-          yield [next_x_obstacle.position[0]-1, 0]
+          p [ :travel_x_more_than_obs_x ]
+          if vx > 0
+            yield [next_x_obstacle.position[0]-width, 0]
+          else
+            yield [next_x_obstacle.position[0]+next_x_obstacle.dimensions[0], 0]
+          end
         end
       else
         yield [x0 + (vx*dt), vx]
@@ -104,14 +118,18 @@ module Physicist
           if vy > 0
             ((y0+height) - next_y_obstacle.position[1]).abs
           else
-            (y0 - next_y_obstacle.position[1]).abs
+            (y0 - (next_y_obstacle.position[1] + next_y_obstacle.dimensions[1])).abs
           end
         distance_travelled_in_y_axis_if_no_obstacles = (vy * dt)
 
-        if distance_travelled_in_y_axis_if_no_obstacles < distance_to_next_y_obstacle
+        if distance_travelled_in_y_axis_if_no_obstacles.abs < distance_to_next_y_obstacle
           yield [y0 + (vy * dt), vy ]
         else
-          yield [next_y_obstacle.position[1]-1.01, 0]
+          if vy > 0
+            yield [next_y_obstacle.position[1] - 1.01, 0] # (height + 0.1), 0]
+          else
+            yield [next_y_obstacle.position[1] + next_y_obstacle.dimensions[1] + 0.1, 0]
+          end
         end
       else
         yield [y0 + (vy * dt), vy]
@@ -137,16 +155,19 @@ module Physicist
             ox >= x0 + width
           end
         elsif vx < 0
+          # require 'pry'
+          # binding.pry
           obstacles_along_axis.select do |obstacle|
             ox,_ = *obstacle.position
             ow,_ = *obstacle.dimensions
-            ox + ow >= x0
+            x0 >= ox + ow
+            # ox + ow >= x0
           end
         else
           []
         end
 
-      if obstacles_in_direction_of_movement
+      if obstacles_in_direction_of_movement.any?
         obstacles_in_direction_of_movement.min_by do |obstacle|
           ox,_ = *obstacle.position
           (x0 - ox).abs
@@ -159,10 +180,13 @@ module Physicist
     def next_obstacle_on_y_axis(vy,t,obstacles:)
       x0,y0 = *position
 
+      # x0 += width/4
+      w = width #/2
+
       obstacles_along_axis = obstacles.select do |obstacle|
         ox,_ = *obstacle.position
         ow,_ = *obstacle.dimensions
-        ox <= x0 + width && x0 <= ox + ow
+        ox <= x0 + w && x0 <= ox + ow
       end
 
       obstacles_in_direction_of_movement =

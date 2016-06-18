@@ -10,7 +10,10 @@ module Physicist
             [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
             [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
             [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
-            [ 1, nil, nil, nil, nil, nil, nil, nil, nil, nil, 1 ],
+            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+            [ nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil ],
+            [ 1, nil, nil, nil, nil, 2, nil, nil, nil, nil, 1 ],
             [ 1, 1,   1,   1,   1,   1,   1,   1,   1,   1,   1 ]
           ]
         )

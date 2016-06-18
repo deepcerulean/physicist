@@ -44,22 +44,23 @@ module Physicist
       end
 
       def tick
-        @ticks ||= 0
-        @ticks += 1
         Scientist.all.each(&:tick)
 
-        if (@ticks % 20 == 0)
-          # poll for movement keys...
-          if window.button_down?(Gosu::KbLeft)
-            fire(move_scientist(:left))
-          elsif window.button_down?(Gosu::KbRight)
-            fire(move_scientist(:right))
-          end
 
-          # TODO
-          if window.button_down?(Gosu::KbUp)
-            fire(jump)
-          end
+        # poll for movement keys...
+        if window.button_down?(Gosu::KbLeft)
+          fire(move_scientist(:left))
+        elsif window.button_down?(Gosu::KbRight)
+          fire(move_scientist(:right))
+        end
+
+        # TODO
+        p [ :check_jump ]
+        if window.button_down?(Gosu::KbUp)
+          p [ :jump! ]
+          fire(jump)
+        else
+          p [ :no_jump! ]
         end
       end
 

@@ -124,8 +124,8 @@ describe Body do
           it 'should be in freefall' do
             _,vy = *body_at_t.velocity
             _,y = *body_at_t.position
-            expect(y0 + 20.0).to eq(y)
-            expect(vy).to eq(20.0)
+            expect(y0 + 50.0).to eq(y)
+            expect(vy).to eq(50.0)
           end
         end
       end
