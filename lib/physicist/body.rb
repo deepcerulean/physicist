@@ -1,6 +1,7 @@
 module Physicist
   class Body
     attr_reader :position, :velocity, :t0, :dimensions
+    attr_accessor :overflow_time
 
     def initialize(position:, velocity:, t0:, dimensions:)
       @position = position
@@ -18,7 +19,7 @@ module Physicist
     end
 
     def gravity
-      50.0
+      30.0
     end
 
     def friction
@@ -30,7 +31,31 @@ module Physicist
       0.00000000001
     end
 
-    def at(t, obstacles:[])
+    def planck_time
+      0.0125
+    end
+
+    def at(t, obstacles:[], fixed_timestep: false)
+      if fixed_timestep
+        # proceed in fixed timesteps...
+        dt = t - t0
+        acc = 0.0
+
+        body = self
+        while acc < dt + (overflow_time||0.0)
+          acc += planck_time
+          body = body.predict(t + acc, obstacles: obstacles)
+        end
+
+        # body.overflow_time = acc - (dt + (overflow_time||0.0))
+        body
+      else
+        predict(t, obstacles: obstacles)
+      end
+    end
+
+    # predict without proceeding in fixed time-steps from last-updated
+    def predict(t, obstacles: [])
       x0, _   = *position
       vx0,vy0 = *velocity
 
