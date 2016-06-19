@@ -1,3 +1,6 @@
+require 'gosu' # note: must require gosu *first*
+require 'dedalus'
+
 require_relative 'screen'
 require_relative 'view'
 
