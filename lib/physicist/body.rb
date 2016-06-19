@@ -27,7 +27,7 @@ module Physicist
 
     # some tiny number
     def epsilon
-      0.000001
+      0.00000000001
     end
 
     def at(t, obstacles:[])
@@ -115,7 +115,7 @@ module Physicist
       if next_y_obstacle
         distance_to_next_y_obstacle =
           if vy > 0
-            ((y0+height) - next_y_obstacle.position[1]).abs
+            ((y0+height) - (next_y_obstacle.position[1] - epsilon)).abs
           else
             (y0 - (next_y_obstacle.position[1] + next_y_obstacle.dimensions[1])).abs
           end
