@@ -138,9 +138,7 @@ module Physicist
     def next_obstacle_on_x_axis(y,vx,t,obstacles:)
       x0,_ = *position
 
-      # w = width/2.0
-      # x0 += w/2.0
-      w = width/2.0
+      w = (width/2.0)
       x0 += w/2.0
 
       obstacles_along_axis = obstacles.select do |obstacle|
@@ -154,18 +152,14 @@ module Physicist
         if vx > 0
           obstacles_along_axis.select do |obstacle|
             ox,_ = *obstacle.position
-            # ow,oh = *obstacle.dimensions
 
-            ox >= x0 + w #/2.0)
+            ox >= x0 + w
           end
         elsif vx < 0
-          # require 'pry'
-          # binding.pry
           obstacles_along_axis.select do |obstacle|
             ox,_ = *obstacle.position
             ow,_ = *obstacle.dimensions
             x0 >= ox + ow
-            # ox + ow >= x0
           end
         else
           []
