@@ -31,11 +31,11 @@ module Physicist
       0.00000000001
     end
 
-    def planck_time
-      0.0125
-    end
+    # def planck_time
+    #   0.00125
+    # end
 
-    def at(t, obstacles:[], fixed_timestep: false)
+    def at(t, obstacles:[], fixed_timestep: false, planck_time: 0.00125)
       if fixed_timestep
         # proceed in fixed timesteps...
         dt = t - t0
